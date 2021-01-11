@@ -28,10 +28,10 @@
 >* `headenum` - enumerates additional info from webservers
 >* `asnenum` - enumerates asn
 >* `dnsenum` - enumerates dns records
->* `mailenum` - enumerates email addresses
 >* `conenum` - enumerates hidden files & directories
 >* `urlenum` - enumerates urls
 >* `subscan` - hunts for subdomain takeovers
+>* `socscan` - scans search engines & webpages for social media accounts
 >* `cscan` - scan with customized templates
 >* `cvescan` - hunts for CVEs
 >* `vulnscan` - hunts for other common vulnerabilites

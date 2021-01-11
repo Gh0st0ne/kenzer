@@ -49,9 +49,9 @@ class Scanner:
         out = path+"/subscan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/subscan* > {1}".format(path, out))
+        os.system("cat {0}/subscan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -71,9 +71,9 @@ class Scanner:
         out = path+"/cvescan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/cvescan* > {1}".format(path, out))
+        os.system("cat {0}/cvescan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -93,9 +93,9 @@ class Scanner:
         out = path+"/vulnscan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/vulnscan* > {1}".format(path, out))
+        os.system("cat {0}/vulnscan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -115,9 +115,9 @@ class Scanner:
         out = path+"/cscan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/cscan* > {1}".format(path, out))
+        os.system("cat {0}/cscan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -141,9 +141,9 @@ class Scanner:
         out = path+"/endscan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/endscan* > {1}".format(path, out))
+        os.system("cat {0}/endscan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -166,9 +166,9 @@ class Scanner:
         out = path+"/parascan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/parascan* > {1}".format(path, out))
+        os.system("cat {0}/parascan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -193,7 +193,7 @@ class Scanner:
             os.system("mv {0} {0}.old".format(out))
         os.system("cat {0}/s3hunt* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -211,7 +211,7 @@ class Scanner:
             os.system("mv {0} {0}.old".format(out))
         os.system("favinizer -d {2}/favinizer.yaml -t 15 -T 60 -l {0} -o {1}".format(subs, out, self.templates))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -231,9 +231,32 @@ class Scanner:
         out = path+"/idscan.kenz"
         if(os.path.exists(out)):
             os.system("mv {0} {0}.old".format(out))
-        os.system("cat {0}/idscan* > {1}".format(path, out))
+        os.system("cat {0}/idscan* | sort -u > {1}".format(path, out))
         if(os.path.exists(out)):
-            with open(out) as f:
+            with open(out, encoding="ISO-8859-1") as f:
+                line = len(f.readlines())
+        else:
+            line=0
+        return line
+    
+    #scans search engines & webpages for social media accounts
+    def socscan(self):
+        domain = self.domain
+        path = self.path
+        subs = path+"/webenum.kenz"
+        if(os.path.exists(subs) == False):
+            return("!webenum")
+        output = path+"/EmailHarvester.log"
+        os.system("EmailHarvester -d {0} -s {1}".format(domain, output))
+        os.system("sed -i -e 's/^/[email] [{0}] /' {1}".format(domain, output))
+        output = path+"/rescro.log"
+        os.system("rescro -l {0} -s {1} -T 100 -o {2}".format(subs, self.templates+"rescro.yaml", output))
+        out = path+"/socscan.kenz"
+        if(os.path.exists(out)):
+            os.system("mv {0} {0}.old".format(out))
+        os.system("cat {0}/EmailHarvester.log {0}/rescro.log | sort -u  > {1}".format(path, out))
+        if(os.path.exists(out)):
+            with open(out, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -252,7 +275,7 @@ class Scanner:
         os.system("sudo NXScan --only-scan -l {0} -o {1} -T {2}/nmap-bootstrap.xsl".format(subs,path+"/nxscan",self.templates))
         os.system("cp {0}/scan.html {1}".format(path+"/nxscan",out))
         if(os.path.exists(subs)):
-            with open(subs) as f:
+            with open(subs, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0
@@ -273,7 +296,7 @@ class Scanner:
         os.system("sed -i 's+screenshots/+aquatone/screenshots/+g' {0}".format(out))
         os.system("sed -i 's+headers/+aquatone/headers/+g' {0}".format(out))
         if(os.path.exists(subs)):
-            with open(subs) as f:
+            with open(subs, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line=0

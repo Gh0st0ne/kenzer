@@ -29,7 +29,7 @@ class Enumerator:
             os.system("rm {0}".format(output))
         os.system("cat {0}/subfinder.log {0}/subenum.kenz* {0}/shuffledns.log {0}/shuffsolv.log {0}/gitdomain.log | sort -u > {1}".format(path, output))
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -51,7 +51,7 @@ class Enumerator:
             os.system("mv {0} {0}.old".format(output))
         os.system("cat {0}/httpx.log {0}/webenum.kenz* | cut -d' ' -f 1 | sort -u > {1}".format(path, output))
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -70,7 +70,7 @@ class Enumerator:
         extras = " -status-code -title -web-server -websocket "
         self.httpx(subs, output, extras)
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -87,7 +87,7 @@ class Enumerator:
             os.system("mv {0} {0}.old".format(output))
         os.system("cat {0}/urlenum.kenz* {0}/gttpx* {0}/gittpx* | grep '\[200\]' | cut -d' ' -f 1 | sort -u> {1}".format(path, output))
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -108,7 +108,7 @@ class Enumerator:
         os.system("sudo NXScan --only-enumerate -l {0} -o {1}".format(subs,path+"/nxscan"))
         os.system("cat {0}/nxscan/enum.txt {0}/portenum.kenz* | sort -u > {1}".format(path, output))
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -126,7 +126,7 @@ class Enumerator:
             os.system("mv {0} {0}.old".format(output))
         os.system("dnsx -l {0} -o {1} -a -aaaa -cname -mx -ptr -soa -txt -resp -retry 2".format(subs, output))
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -144,22 +144,7 @@ class Enumerator:
             os.system("rm {0}".format(output))
         os.system("domlock -l {0} -o {1} -T 50".format(subs, output))
         if(os.path.exists(output)):
-            with open(output) as f:
-                line = len(f.readlines())
-        else:
-            line = 0
-        return line
-      
-    #enumerates emails using EmailHarvester
-    def mailenum(self):
-        domain = self.domain
-        path = self.path
-        output = path+"/mailenum.kenz"
-        if(os.path.exists(output)):
-            os.system("rm {0}".format(output))
-        os.system("EmailHarvester -d {0} -s {1}".format(domain, output))
-        if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
@@ -177,7 +162,7 @@ class Enumerator:
             os.system("rm {0}".format(output))
         os.system("ffuf -u FuZZDoM/FuZZCoN -w {0}:FuZZDoM,{1}:FuZZCoN -of html -o {2} -t 80".format(subs, self.resources+"/kenzer-templates/ffuf.lst", output))
         if(os.path.exists(output)):
-            with open(output) as f:
+            with open(output, encoding="ISO-8859-1") as f:
                 line = len(f.readlines())
         else:
             line = 0
