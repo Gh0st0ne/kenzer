@@ -176,7 +176,7 @@ class Kenzer(object):
 
     #normalizes enumerations from ct logs
     def normalize(self):
-        self.monitor = monitor.Monitor(" ".join(self.content[2:]), _kenzerdb)
+        self.monitor = monitor.Monitor(_kenzerdb, " ".join(self.content[2:]))
         self.monitor.normalize()
         self.sendMessage("[normalized - #({0})]".format(len(self.content)-2))
         return
